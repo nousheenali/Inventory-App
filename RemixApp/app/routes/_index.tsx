@@ -1,4 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
+import { useNavigate } from "@remix-run/react";
+import { ButtonField } from "../components/buttonField";
 
 export const meta: MetaFunction = () => {
   return [
@@ -8,34 +10,25 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const navigate = useNavigate();
+
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+    <div className="flex justify-center items-center flex-col gay-y-4">
+      <h1 className="text-blue-500 text-5xl font-bold underline p-6">
+        Remix Product App
+      </h1>
+      <ButtonField
+        label="ADD PRODUCT"
+        onClick={() => navigate("/Product")}
+      ></ButtonField>
+      <ButtonField
+        label="ADD CATEGORY"
+        onClick={() => navigate("/Category")}
+      ></ButtonField>
+      <ButtonField
+        label="VIEW PRODUCTS"
+        onClick={() => navigate("/ListProducts")}
+      ></ButtonField>
     </div>
   );
 }
