@@ -1,15 +1,21 @@
 import { InputField } from "~/components/inputField";
 import { useState } from "react";
-import { ActionFunction, json } from "@remix-run/node";
+import { ActionFunction, LoaderFunction, json } from "@remix-run/node";
 import { validateCategory } from "~/validators.server";
-import { createCategory } from "~/utils/category.server";
-import { useActionData } from "@remix-run/react";
+import { createCategory, getAllCategories } from "~/utils/category.server";
+import { useActionData, useLoaderData } from "@remix-run/react";
+import { CategoryType } from "~/utils/types.server";
+import { ButtonField } from "~/components/buttonField";
+import { useNavigate } from "@remix-run/react";
 
 export const action: ActionFunction = async ({ request }) => {
   try {
     const form = await request.formData();
 
     const name = form.get("categoryname");
+    const parentCategory = form.get("selectedCategory") as string;
+
+    // console.log(name, parentCategory, typeof name, typeof parentCategory);
     if (typeof name !== "string") {
       return json({ message: "Invalid name", form: action }, { status: 400 });
     }
@@ -21,29 +27,41 @@ export const action: ActionFunction = async ({ request }) => {
     if (Object.values(errors).some(Boolean)) {
       return json({ message: "Invalid fields", errors }, { status: 400 });
     }
-    return await createCategory({ name });
+    return await createCategory({ name: name, parentCategory: parentCategory });
   } catch (error) {
     console.error(error);
     return json({ message: "Something went wrong" }, { status: 500 });
   }
 };
 
+export const loader: LoaderFunction = async () => {
+  try {
+    return getAllCategories();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export default function Category() {
-//   const [act, setAct] = useState("submit"); // ['submit', 'success', 'error'
+  let categories = useLoaderData<CategoryType[]>();
+
   const [formData, setFormData] = useState({
     categoryname: "",
+    selectedCategory: "",
   });
   const actionData = useActionData<typeof action>();
 
-
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>,
     field: string
   ) => {
     setFormData((form) => ({
       ...form,
       [field]: e.target.value,
     }));
+    console.log(e.target.value);
   };
 
   return (
@@ -51,7 +69,7 @@ export default function Category() {
       <h1 className="text-blue-500 text-5xl font-bold underline p-6">
         Add Category
       </h1>
-      <div>{actionData ? actionData.message : "Waiting..."}</div>
+      <div>{actionData ? actionData.message : ""}</div>
       <form method="post" className="rounded-2xl bg-gray-200 p-6 w-96">
         <InputField
           label="Category Name"
@@ -60,7 +78,22 @@ export default function Category() {
           value={formData.categoryname}
           onChange={(e) => handleInputChange(e, "categoryname")}
         />
-
+        <label>
+          Parent Category
+          <select
+            name="selectedCategory"
+            value={formData.selectedCategory}
+            onChange={(e) => handleInputChange(e, "selectedCategory")}
+            id="selectedCategory"
+            className="w-full p-2 mt-2"
+          >
+            {categories.map((category) => (
+              <option key={category.name} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </label>
         <div className="w-full text-center">
           <button
             type="submit"

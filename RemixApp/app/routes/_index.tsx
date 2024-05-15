@@ -26,6 +26,10 @@ export default function Index() {
         onClick={() => navigate("/Category")}
       ></ButtonField>
       <ButtonField
+        label="VIEW CATEGORIES"
+        onClick={() => navigate("/ListCategories")}
+      ></ButtonField>
+      <ButtonField
         label="VIEW PRODUCTS"
         onClick={() => navigate("/ListProducts")}
       ></ButtonField>
