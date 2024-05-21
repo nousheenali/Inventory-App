@@ -1,14 +1,14 @@
 interface FormFieldProps {
   label: string;
-  type: string;
-  value: string;
+  type: "text" | "number";
+  value: string | number;
   name: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
+  step?: string;
 }
 
 export function InputField(data: FormFieldProps) {
-
-
   return (
     <label>
       {data.label}
@@ -19,6 +19,8 @@ export function InputField(data: FormFieldProps) {
         value={data.value}
         name={data.name}
         onChange={data.onChange}
+        required={data.required}
+        step={data.step}
       />
     </label>
   );

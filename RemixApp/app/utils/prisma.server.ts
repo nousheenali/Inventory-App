@@ -5,7 +5,7 @@ declare global {
     var _db: PrismaClient | undefined;
 }
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "development") {
   prisma = new PrismaClient();
   prisma.$connect();
 } else {

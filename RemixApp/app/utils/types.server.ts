@@ -2,7 +2,8 @@ export interface AddProduct {
     name: string;
     description: string;
     price: number;
-    image: string;
+    categories: string[];
+    imgSrc: string;
 }
 
 export interface AddCategory {
@@ -23,5 +24,14 @@ export type CategoryType = {
   name: string;
   parentId: number | null;
   ProductId: number | null;
-  parentCategory: ParentCategory | null;
+  // parentCategory: ParentCategory | null;
+};
+
+export type ProductType = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  categories: CategoryType[];
 };

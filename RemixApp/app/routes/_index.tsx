@@ -13,26 +13,28 @@ export default function Index() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-center items-center flex-col gay-y-4">
-      <h1 className="text-blue-500 text-5xl font-bold underline p-6">
-        Remix Product App
+    <div className="flex justify-center items-center flex-col">
+      <h1 className="text-white text-5xl font-bold">
+        Welcome to Inventory Genie!
       </h1>
-      <ButtonField
-        label="ADD PRODUCT"
-        onClick={() => navigate("/Product")}
-      ></ButtonField>
-      <ButtonField
-        label="ADD CATEGORY"
-        onClick={() => navigate("/Category")}
-      ></ButtonField>
-      <ButtonField
-        label="VIEW CATEGORIES"
-        onClick={() => navigate("/ListCategories")}
-      ></ButtonField>
-      <ButtonField
-        label="VIEW PRODUCTS"
-        onClick={() => navigate("/ListProducts")}
-      ></ButtonField>
+      <p className="text-white text-2xl font-bold p-6">
+        Your one-stop shop for managing your inventory.
+      </p>
+      <div className="space-x-10">
+        <ButtonField label="Add Product" onClick={() => navigate("/Product")} />
+        <ButtonField
+          label="Add Category"
+          onClick={() => navigate("/Category")}
+        />
+        <ButtonField
+          label="View Categories"
+          onClick={() => navigate("/ListCategories")}
+        />
+        <ButtonField
+          label="View Products"
+          onClick={() => navigate("/ListProducts")}
+        />
+      </div>
     </div>
   );
 }
